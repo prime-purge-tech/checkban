@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Purge</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="bg-fallback"></div>
+<video id="bgVideo" autoplay loop muted playsinline></video>
+<div class="ov-dark"></div>
+<div class="ov-dots"></div>
+<button id="settingsBtn">
+  <svg class="ham-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path class="hline h-top" d="m 30,33 h 40 c 3.722839,0 7.5,3.122222 7.5,8.5 0,8.271604 -9.46154,15.5 -14.399627,15.5 l -31.960839,0"/>
+    <path class="hline h-mid" d="m 30,50 h 40"/>
+    <path class="hline h-bot" d="m 70,67 h -40 c -3.722839,0 -7.5,-3.122222 -7.5,-8.5 0,-8.271604 9.46154,-15.5 14.399627,-15.5 l 31.960839,0"/>
+  </svg>
+</button>
+
+<!-- SETTINGS PANEL -->
+<div id="settingsPanel">
+  <div class="s-head">Paramètres</div>
+
+  <button class="s-btn clip-open-btn" id="openClipBtn">📋 &nbsp;Presse-papier</button>
+
+  <div class="s-section">Apparence</div>
+  <div class="s-row">
+    <span class="s-label">Vidéo de fond</span>
+    <button class="s-btn" id="changeVideoBtn">Changer</button>
+  </div>
+  <div class="s-row">
+    <span class="s-label">Flou vidéo</span>
+    <div class="tog" id="blurTog"></div>
+  </div>
+  <div class="s-row">
+    <span class="s-label">Photo message</span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <img id="photoPreview" src="" alt="">
+      <button class="s-btn" id="changePhotoBtn">Changer</button>
+    </div>
+  </div>
+
+  <div class="s-section">Couleur des cartes</div>
+  <div class="s-field">
+    <label>Couleur bordure</label>
+    <div class="color-row">
+      <input type="color" id="borderColorPick" value="#ffffff">
+      <input type="range" id="borderOpacity" min="0" max="100" value="55">
+      <span class="color-val" id="borderOpVal">55%</span>
+    </div>
+  </div>
+  <div class="anim-row">
+    <span class="anim-label">✨ Bordure animée (arc-en-ciel)</span>
+    <div class="tog" id="animTog"></div>
+  </div>
+  <div class="s-field">
+    <label>Couleur fond des cartes</label>
+    <div class="color-row">
+      <input type="color" id="panelColorPick" value="#04040c">
+      <input type="range" id="panelOpacity" min="0" max="100" value="65">
+      <span class="color-val" id="panelOpVal">65%</span>
+    </div>
+  </div>
+
+  <div class="s-field">
+    <label>Pays du drapeau</label>
+    <select id="countrySelect">
+      <optgroup label="── Afrique Centrale ──">
+        <option value="Gabon">🇬🇦 Gabon</option>
+        <option value="Cameroun">🇨🇲 Cameroun</option>
+        <option value="Congo RDC">🇨🇩 Congo RDC</option>
+        <option value="Congo">🇨🇬 Congo</option>
+        <option value="Tchad">🇹🇩 Tchad</option>
+        <option value="RCA">🇨🇫 Centrafrique</option>
+        <option value="Guinée Éq.">🇬🇶 Guinée Équatoriale</option>
+        <option value="São Tomé">🇸🇹 São Tomé</option>
+        <option value="Angola">🇦🇴 Angola</option>
+        <option value="Burundi">🇧🇮 Burundi</option>
+        <option value="Rwanda">🇷🇼 Rwanda</option>
+      </optgroup>
+      <optgroup label="── Afrique de l'Ouest ──">
+        <option value="Sénégal">🇸🇳 Sénégal</option>
+        <option value="Mali">🇲🇱 Mali</option>
+        <option value="Guinée">🇬🇳 Guinée</option>
+        <option value="CIvoire">🇨🇮 Côte d'Ivoire</option>
+        <option value="Nigeria">🇳🇬 Nigeria</option>
+        <option value="Ghana">🇬🇭 Ghana</option>
+        <option value="Bénin">🇧🇯 Bénin</option>
+        <option value="Togo">🇹🇬 Togo</option>
+        <option value="Niger">🇳🇪 Niger</option>
+        <option value="Burkina Faso">🇧🇫 Burkina Faso</option>
+        <option value="Sierra Leone">🇸🇱 Sierra Leone</option>
+        <option value="Liberia">🇱🇷 Liberia</option>
+        <option value="Guinée-Bissau">🇬🇼 Guinée-Bissau</option>
+        <option value="Gambie">🇬🇲 Gambie</option>
+        <option value="Cap-Vert">🇨🇻 Cap-Vert</option>
+        <option value="Mauritanie">🇲🇷 Mauritanie</option>
+      </optgroup>
+      <optgroup label="── Afrique de l'Est ──">
+        <option value="Éthiopie">🇪🇹 Éthiopie</option>
+        <option value="Kenya">🇰🇪 Kenya</option>
+        <option value="Tanzanie">🇹🇿 Tanzanie</option>
+        <option value="Ouganda">🇺🇬 Ouganda</option>
+        <option value="Mozambique">🇲🇿 Mozambique</option>
+        <option value="Madagascar">🇲🇬 Madagascar</option>
+        <option value="Malawi">🇲🇼 Malawi</option>
+        <option value="Zambie">🇿🇲 Zambie</option>
+        <option value="Zimbabwe">🇿🇼 Zimbabwe</option>
+        <option value="Somalie">🇸🇴 Somalie</option>
+        <option value="Djibouti">🇩🇯 Djibouti</option>
+        <option value="Érythrée">🇪🇷 Érythrée</option>
+        <option value="Comores">🇰🇲 Comores</option>
+        <option value="Maurice">🇲🇺 Maurice</option>
+        <option value="Seychelles">🇸🇨 Seychelles</option>
+      </optgroup>
+      <optgroup label="── Afrique du Nord ──">
+        <option value="Égypte">🇪🇬 Égypte</option>
+        <option value="Libye">🇱🇾 Libye</option>
+        <option value="Tunisie">🇹🇳 Tunisie</option>
+        <option value="Algérie">🇩🇿 Algérie</option>
+        <option value="Maroc">🇲🇦 Maroc</option>
+        <option value="Soudan">🇸🇩 Soudan</option>
+        <option value="Soudan du Sud">🇸🇸 Soudan du Sud</option>
+      </optgroup>
+      <optgroup label="── Afrique Australe ──">
+        <option value="Afrique du Sud">🇿🇦 Afrique du Sud</option>
+        <option value="Namibie">🇳🇦 Namibie</option>
+        <option value="Botswana">🇧🇼 Botswana</option>
+        <option value="Lesotho">🇱🇸 Lesotho</option>
+        <option value="Eswatini">🇸🇿 Eswatini</option>
+      </optgroup>
+      <optgroup label="── Caraïbes ──">
+        <option value="Haïti">🇭🇹 Haïti</option>
+      </optgroup>
+    </select>
+  </div>
+
+  <div class="s-section">Messages</div>
+  <div class="s-field">
+    <label>Taille du texte</label>
+    <div class="color-row">
+      <span style="font-size:10px;color:var(--muted);flex-shrink:0">A</span>
+      <input type="range" id="msgFontSlider" min="13" max="28" value="20">
+      <span style="font-size:15px;color:var(--ink);flex-shrink:0">A</span>
+      <span class="color-val" id="msgFontVal">20px</span>
+    </div>
+  </div>
+  <div class="s-field">
+    <label>Message "banni"</label>
+    <span class="hint">Variables : {num} {raison} {date} — coloré entre *étoiles* (rouge)</span>
+    <textarea id="msgBan" placeholder="Le numéro *{num}* est *BANNI*.&#10;Raison : {raison}&#10;Banni le {date}"></textarea>
+  </div>
+  <div class="s-field">
+    <label>Message "non banni"</label>
+    <span class="hint">Variables : {num} {wa} — coloré entre *étoiles* (vert)</span>
+    <textarea id="msgOk" placeholder="Le numéro *{num}* n'est *pas banni*.&#10;{wa}"></textarea>
+  </div>
+
+  <div class="s-section">Textes</div>
+  <div class="s-field"><label>Nom du bot</label><input type="text" id="lBot" placeholder="PRIME PURGE" autocomplete="off"></div>
+  <div class="s-field"><label>Bouton CLOSE</label><input type="text" id="lClose" placeholder="CLOSE" autocomplete="off"></div>
+  <div class="s-field"><label>Bouton NEXT</label><input type="text" id="lNext" placeholder="NEXT" autocomplete="off"></div>
+  <div class="s-field"><label>Bouton EDIT</label><input type="text" id="lEdit" placeholder="EDIT" autocomplete="off"></div>
+  <div class="s-field"><label>Bouton YES</label><input type="text" id="lYes" placeholder="YES" autocomplete="off"></div>
+
+  <!-- Icônes 3D en bas du panneau (remplace "Connexion") -->
+  <div class="s-section">Suivez-nous</div>
+  <div class="icons">
+    <a href="https://github.com/prime-purge-tech?tab=repositories" target="_blank" class="github">
+      <div class="layer">
+        <span></span><span></span><span></span><span></span>
+        <span class="fab fa-github"></span>
+      </div>
+      <div class="text">GitHub</div>
+    </a>
+    <a href="https://whatsapp.com/channel/0029Vb7Ibg5002T79MWH2r1p" target="_blank" class="whatsapp">
+      <div class="layer">
+        <span></span><span></span><span></span><span></span>
+        <span class="fab fa-whatsapp"></span>
+      </div>
+      <div class="text">WhatsApp</div>
+    </a>
+    <a href="https://t.me/PRlME_PURGE_TECH" target="_blank" class="telegram">
+      <div class="layer">
+        <span></span><span></span><span></span><span></span>
+        <span class="fab fa-telegram"></span>
+      </div>
+      <div class="text">Telegram</div>
+    </a>
+    <a href="https://www.youtube.com/@no-name-officiel" target="_blank" class="youtube">
+      <div class="layer">
+        <span></span><span></span><span></span><span></span>
+        <span class="fab fa-youtube"></span>
+      </div>
+      <div class="text">YouTube</div>
+    </a>
+  </div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div class="modal" id="videoModal">
+  <div class="modal-box">
+    <h3>CHANGER LA VIDÉO</h3>
+    <div class="modal-choices">
+      <button id="vidGalleryBtn">📁 &nbsp;Depuis la galerie</button>
+      <button id="vidCameraBtn">📷 &nbsp;Prendre une vidéo</button>
+    </div>
+    <div class="modal-cancel" id="cancelVideoModal">Annuler</div>
+  </div>
+</div>
+
+<!-- PHOTO MODAL -->
+<div class="modal" id="photoModal">
+  <div class="modal-box">
+    <h3>CHANGER LA PHOTO</h3>
+    <div class="modal-choices">
+      <button id="picGalleryBtn">🖼️ &nbsp;Depuis la galerie</button>
+      <button id="picCameraBtn">📸 &nbsp;Prendre une photo</button>
+    </div>
+    <div class="modal-cancel" id="cancelPhotoModal">Annuler</div>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div id="histOverlay"></div>
+<div id="histPanel">
+  <div class="hist-bar">
+    <span class="hist-title">HISTORIQUE</span>
+    <button class="hist-clear" id="clearAllBtn">Tout effacer</button>
+  </div>
+  <div id="histList"></div>
+  <div id="histEmpty" class="hist-empty">Aucun historique</div>
+</div>
+
+<!-- USE MODAL -->
+<div class="info-modal" id="useModal">
+  <div class="info-box">
+    <h3>📖 COMMENT UTILISER</h3>
+    <div class="info-step"><span class="num">1.</span><span>Entre un numéro avec l'indicatif du pays après le +</span></div>
+    <div class="info-step"><span class="num">2.</span><span>Clique sur NEXT — vérification bannissement + WhatsApp</span></div>
+    <div class="info-step"><span class="num">3.</span><span>BANNI → raison + date/heure du bannissement affichées</span></div>
+    <div class="info-step"><span class="num">4.</span><span>NON BANNI → statut WhatsApp affiché (online / hors ligne)</span></div>
+    <div class="info-step"><span class="num">5.</span><span>Clique YES pour ouvrir WhatsApp vers le numéro vérifié</span></div>
+    <div class="info-step"><span class="num">⚙</span><span>Paramètres : messages, couleurs, labels</span></div>
+    <div class="info-step"><span class="num">📌</span><span>Appuie sur PRIME PURGE pour voir l'historique</span></div>
+    <button class="info-close" id="closeUseModal">OK</button>
+  </div>
+</div>
+
+<!-- CLIPBOARD PANEL -->
+<div id="clipOverlay"></div>
+<div id="clipPanel">
+  <div class="clip-bar">
+    <span class="clip-title">📋 PRESSE-PAPIER</span>
+    <button class="clip-clear" id="clipClearAll">Tout effacer</button>
+  </div>
+  <div class="clip-input-area">
+    <textarea id="clipTextarea" placeholder="Colle ou écris un message ici…"></textarea>
+  </div>
+  <button class="clip-save-btn" id="clipSaveBtn">+ Sauvegarder</button>
+  <div id="clipList"></div>
+  <div id="clipEmpty" class="clip-empty">Aucun message sauvegardé</div>
+</div>
+
+<!-- File inputs -->
+<input type="file" id="vidGalleryInput" accept="video/*" style="display:none">
+<input type="file" id="vidCameraInput" accept="video/*" capture="camcorder" style="display:none">
+<input type="file" id="picGalleryInput" accept="image/*" style="display:none">
+<input type="file" id="picCameraInput" accept="image/*" capture="environment" style="display:none">
+
+<!-- ZOOM PHOTO ELEMENT -->
+<div id="flagZoom">
+  <img id="zoomImg" src="https://files.catbox.moe/etznit.jpg" alt="">
+</div>
+
+<div class="content">
+  <div class="flag-logo" id="flagLogo">
+    <div class="flag-stripe" id="fs1"></div>
+    <div class="flag-stripe" id="fs2"></div>
+    <div class="flag-stripe" id="fs3"></div>
+    <div class="flag-sym" id="fsym"></div>
+  </div>
+
+  <div id="entryStep">
+    <div class="console">
+      <div class="tabs">
+        <button class="tab" id="closeBtn">CLOSE</button>
+        <button class="tab" id="nextBtn">NEXT</button>
+      </div>
+      <div class="bot-label" id="botLabel">PRIME PURGE</div>
+    </div>
+    <div class="field-wrap">
+      <div class="field">
+        <span class="plus">+</span>
+        <input id="numInput" type="tel" placeholder="243 904 686 774" autocomplete="off">
+      </div>
+    </div>
+  </div>
+
+  <div class="confirm" id="confirmStep">
+    <div class="c-msg" id="cMsg"></div>
+    <div class="c-actions">
+      <button id="editBtn">EDIT</button>
+      <button id="yesBtn">YES</button>
+    </div>
+  </div>
+
+  <div class="loader" id="loaderStep">
+    <div class="ploader"></div>
+    <div class="loader-lbl">VÉRIFICATION EN COURS…</div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
